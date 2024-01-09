@@ -1,0 +1,8 @@
+Streamlit
+Numpy
+Pandas==1.5.3
+Scipy==1.21.5
+Matplotlib==3.7.1
+Harmonica==v0.6.0
+Xarray==2023.1.0
+Folium==0.14.0
