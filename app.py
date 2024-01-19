@@ -1,7 +1,7 @@
 #----------IMPORT PACKAGE----------
 import streamlit as st
 import numpy as np
-import modin.pandas as pd
+import pandas as pd
 from scipy.interpolate import griddata
 import matplotlib.pyplot as plt
 import harmonica as hm
