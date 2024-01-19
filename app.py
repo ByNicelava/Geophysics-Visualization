@@ -12,11 +12,13 @@ from folium.raster_layers import ImageOverlay
 
 
 #----------SET PAGE CONFIG----------
-st.set_page_config(layout='wide',page_title="Geophysics Visualization", page_icon="image_logo.png")
+st.set_page_config(layout='wide',page_title="Geophysics Visualization", page_icon=":mag:")
 
 
 st.title("Geophysics Data Visualization")
+st.sidebar.image('DATA\Seiscraft-b.png')
 page = st.sidebar.selectbox("METHOD", ("Magnetic","Gravity"))
+
 #---------------------END PAGE CONFIG--------------------------
 
 #----------DATA INPUT----------
@@ -27,13 +29,19 @@ data = None
 
 #----------CEK DATA IS UPLOADED----------
 if page == "Magnetic":
+    xMlabel = ('Longitude')
+    yMlabel = ('Latitude')
     if uploaded_file is not None:
         # Read data from uploaded file
         if uploaded_file.type == "text/plain":
             data = pd.read_csv(uploaded_file, header=None, delim_whitespace=True, names=['Latitude', 'Longitude', 'TMI'],skiprows=1)
         else:
             data = pd.read_csv(uploaded_file, delimiter=',|;',names=['Latitude', 'Longitude', 'TMI'],header=None, skiprows=1)
+
+
 elif page == "Gravity":
+    xGlabel = ('Northing')
+    yGlabel = ('Easting')
     if uploaded_file is not None:
         # Read data from uploaded file
         if uploaded_file.type == "text/plain":
@@ -98,7 +106,17 @@ if show_interpolation_settings and data is not None:
         contour_plot = ax.contour(grid_northing, grid_easting, grid_cba, colors='black', levels=interpolation_contour_levels)
         ax.clabel(contour_plot, inline=True, fontsize=8, fmt='%1.1f')
 
-    ax.axis('off')
+    if page == "Magnetic":
+        plt.xlabel(xMlabel)
+        plt.ylabel(yMlabel)
+        cbar = fig.colorbar(cba_plot, label='nT')
+
+
+    elif page == "Gravity":
+        plt.xlabel(xGlabel)
+        plt.ylabel(yGlabel)
+        cbar = fig.colorbar(cba_plot, label='CBA')
+
     plt.tight_layout()
     height_displacement_meter = st.sidebar.number_input("Height Displacement (meters)", value=0.001, step=0.001)
     # Display the interpolated map
@@ -137,11 +155,23 @@ if show_upward_settings and data is not None:
         # Create a figure for plotting
         fig_upward, ax_upward = plt.subplots()
         upward_plot = ax_upward.contourf(grid_northing, grid_easting, upward_continued, cmap=upward_colormap, levels=20, alpha=upward_transparency)
+
+
         if upward_show_contour:
             contour_upward_plot = ax_upward.contour(grid_northing, grid_easting, upward_continued, colors='black', levels=upward_contour_levels)
             ax_upward.clabel(contour_upward_plot, inline=True, fontsize=8, fmt='%1.1f')
 
-        ax_upward.axis('off')
+        if page == "Magnetic":
+            plt.xlabel(xMlabel)
+            plt.ylabel(yMlabel)
+            cbar = fig.colorbar(upward_plot, label='nT')
+
+
+        elif page == "Gravity":
+            plt.xlabel(xGlabel)
+            plt.ylabel(yGlabel)
+            cbar = fig.colorbar(upward_plot, label='CBA')
+
         plt.tight_layout()
         buffer_upward = BytesIO()
         plt.savefig(buffer_upward, format="png", bbox_inches='tight', pad_inches=0, transparent=True)
@@ -175,11 +205,22 @@ if  derivative_settings and data is not None:
         # Create a figure for plotting
         fig_derivative, ax_derivative_e = plt.subplots()
         derivative_plot = ax_derivative_e.contourf(grid_northing, grid_easting, derivative_e, cmap=derivative_colormap, levels=20, alpha=derivative_transparency)
+
         if derivative_contour:
             contour_derivative_plot = ax_derivative_e.contour(grid_northing, grid_easting, derivative_e, colors='black', levels=derivative_contour_levels)
             ax_derivative_e.clabel(contour_derivative_plot, inline=True, fontsize=8, fmt='%1.1f')
 
-        ax_derivative_e.axis('off')
+        if page == "Magnetic":
+            plt.xlabel(xMlabel)
+            plt.ylabel(yMlabel)
+            cbar = fig.colorbar(derivative_plot, label='nT')
+
+
+        elif page == "Gravity":
+            plt.xlabel(xGlabel)
+            plt.ylabel(yGlabel)
+            cbar = fig.colorbar(derivative_plot, label='CBA')
+
         plt.tight_layout()
 
         buffer_derivative_e = BytesIO()
@@ -195,11 +236,22 @@ if  derivative_settings and data is not None:
         # Create a figure for plotting
         fig_derivative, ax_derivative_n = plt.subplots()
         derivative_plot = ax_derivative_n.contourf(grid_northing, grid_easting, derivative_n, cmap=derivative_colormap, levels=20, alpha=derivative_transparency)
+
         if derivative_contour:
             contour_derivative_plot = ax_derivative_n.contour(grid_northing, grid_easting, derivative_n, colors='black', levels=derivative_contour_levels)
             ax_derivative_n.clabel(contour_derivative_plot, inline=True, fontsize=8, fmt='%1.1f')
 
-        ax_derivative_n.axis('off')
+        if page == "Magnetic":
+            plt.xlabel(xMlabel)
+            plt.ylabel(yMlabel)
+            cbar = fig.colorbar(derivative_plot, label='nT')
+
+
+        elif page == "Gravity":
+            plt.xlabel(xGlabel)
+            plt.ylabel(yGlabel)
+            cbar = fig.colorbar(derivative_plot, label='CBA')
+
         plt.tight_layout()
 
         buffer_derivative_n = BytesIO()
@@ -233,11 +285,22 @@ if cutoff_settings and data is not None:
         # Create a figure for plotting
         fig_cutoff, ax_cutoffl = plt.subplots()
         cutoff_plot = ax_cutoffl.contourf(grid_northing, grid_easting, cutlow, cmap=cutoff_colormap,levels=20, alpha=cutoff_transparency)
+
         if cutoff_contour:
             contour_cutoff_plot = ax_cutoffl.contour(grid_northing, grid_easting, cutlow, colors='black',levels=cutoff_contour_levels)
             ax_cutoffl.clabel(contour_cutoff_plot, inline=True, fontsize=8, fmt='%1.1f')
 
-        ax_cutoffl.axis('off')
+        if page == "Magnetic":
+            plt.xlabel(xMlabel)
+            plt.ylabel(yMlabel)
+            cbar = fig.colorbar(cutoff_plot, label='nT')
+
+
+        elif page == "Gravity":
+            plt.xlabel(xGlabel)
+            plt.ylabel(yGlabel)
+            cbar = fig.colorbar(cutoff_plot, label='CBA')
+
         plt.tight_layout()
         buffer_cutoffl = BytesIO()
         plt.savefig(buffer_cutoffl, format="png", bbox_inches='tight', pad_inches=0, transparent=True)
@@ -251,11 +314,22 @@ if cutoff_settings and data is not None:
         # Create a figure for plotting
         fig_cutoff, ax_cutoffh = plt.subplots()
         cutoff_plot = ax_cutoffh.contourf(grid_northing, grid_easting, cuthigh, cmap=cutoff_colormap,levels=20, alpha=cutoff_transparency)
+
         if cutoff_contour:
             contour_cutoff_plot = ax_cutoffh.contour(grid_northing, grid_easting, cuthigh, colors='black',levels=cutoff_contour_levels)
             ax_cutoffh.clabel(contour_cutoff_plot, inline=True, fontsize=8, fmt='%1.1f')
 
-        ax_cutoffh.axis('off')
+        if page == "Magnetic":
+            plt.xlabel(xMlabel)
+            plt.ylabel(yMlabel)
+            cbar = fig.colorbar(cutoff_plot, label='nT')
+
+
+        elif page == "Gravity":
+            plt.xlabel(xGlabel)
+            plt.ylabel(yGlabel)
+            cbar = fig.colorbar(cutoff_plot, label='CBA')
+
         plt.tight_layout()
         buffer_cutoffh = BytesIO()
         plt.savefig(buffer_cutoffh, format="png", bbox_inches='tight', pad_inches=0, transparent=True)
@@ -296,7 +370,17 @@ if rtp_settings and data is not None:
                                                   levels=RTP_contour_levels)
                 ax_rtp.clabel(contour_rtp_plot, inline=True, fontsize=8, fmt='%1.1f')
 
-            ax_rtp.axis('off')
+            if page == "Magnetic":
+                plt.xlabel(xMlabel)
+                plt.ylabel(yMlabel)
+                cbar = fig.colorbar(rtp_plot, label='nT')
+
+
+            elif page == "Gravity":
+                plt.xlabel(xGlabel)
+                plt.ylabel(yGlabel)
+                cbar = fig.colorbar(rtp_plot, label='CBA')
+
             plt.tight_layout()
 
             buffer_RTP = BytesIO()
