@@ -1,7 +1,7 @@
-Streamlit
-Numpy
-Pandas==1.5.3
-Scipy
+Streamlit==1.29.0
+Numpy==1.24.4
+Modin==0.23.1.post0
+Scipy==1.24.4
 Matplotlib==3.7.1
 Harmonica==v0.6.0
 Xarray==2023.1.0
