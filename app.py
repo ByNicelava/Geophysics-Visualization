@@ -16,7 +16,7 @@ st.set_page_config(layout='wide',page_title="Geophysics Visualization", page_ico
 
 
 st.title("Geophysics Data Visualization")
-st.sidebar.image('DATA\Seiscraft-b.png')
+st.sidebar.image('image_logo.png')
 page = st.sidebar.selectbox("METHOD", ("Magnetic","Gravity"))
 
 #---------------------END PAGE CONFIG--------------------------
