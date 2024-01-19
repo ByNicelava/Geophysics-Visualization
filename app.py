@@ -1,7 +1,7 @@
 #----------IMPORT PACKAGE----------
 import streamlit as st
 import numpy as np
-import pandas as pd
+import modin.pandas as pd
 from scipy.interpolate import griddata
 import matplotlib.pyplot as plt
 import harmonica as hm
@@ -12,11 +12,11 @@ from folium.raster_layers import ImageOverlay
 
 
 #----------SET PAGE CONFIG----------
-st.set_page_config(layout='wide',page_title="Geophysics Visualization", page_icon="image_logo.png")
+st.set_page_config(layout='wide',page_title="Geophysics Visualization", page_icon="Logo_App.png")
 
 
-st.title("Geophysics Data Visualization")
-st.sidebar.image("image_logo.png")
+st.image("Logo_App.png")
+st.sidebar.image('Logo_App.png')
 page = st.sidebar.selectbox("METHOD", ("Magnetic","Gravity"))
 
 #---------------------END PAGE CONFIG--------------------------
