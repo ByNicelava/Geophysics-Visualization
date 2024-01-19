@@ -12,11 +12,11 @@ from folium.raster_layers import ImageOverlay
 
 
 #----------SET PAGE CONFIG----------
-st.set_page_config(layout='wide',page_title="Geophysics Visualization", page_icon=":mag:")
+st.set_page_config(layout='wide',page_title="Geophysics Visualization", page_icon="image_logo.png")
 
 
 st.title("Geophysics Data Visualization")
-st.sidebar.image('image_logo.png')
+st.sidebar.image("image_logo.png")
 page = st.sidebar.selectbox("METHOD", ("Magnetic","Gravity"))
 
 #---------------------END PAGE CONFIG--------------------------
